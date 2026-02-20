@@ -1,0 +1,27 @@
+# node modules
+node_modules/
+
+# environment variables
+.env
+.env.local
+
+# Next.js build files
+.next/
+
+# production build folders
+build/
+dist/
+out/
+
+# Vercel deployment
+.vercel/
+
+# log files
+npm-debug.log*
+
+# system files
+.DS_Store
+Thumbs.db
+
+# private keys
+*.pem
