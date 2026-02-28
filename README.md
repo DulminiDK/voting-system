@@ -1,105 +1,88 @@
-🗳️ Online Voting System
+# Online Voting System – Full-Stack Secure Voting Platform
 
-Online Voting System is a full-stack web application that allows users to securely vote for nominees, view live rankings, and interact through comments. The platform includes authentication, vote cooldown enforcement, and an admin dashboard for managing nominees.
+Online Voting System is a full-stack web application that allows users to securely vote for nominees, view live rankings, and interact through comments and replies. It also includes an admin dashboard for managing nominees and moderating content.
 
-This project demonstrates authentication, full-stack architecture, REST API design, database management, and real-time style result updates.
+This project demonstrates authentication, REST API design, database management, and full-stack development skills.
 
-🚀 Features
-🔐 Authentication
+---
 
-Email OTP based login
+## 🚀 Features
 
-Secure JWT authentication
+### 🔐 Authentication
+- Email OTP based login
+- Secure JWT-based authentication
+- Protected routes
+- Persistent user sessions
 
-Protected API routes
+### 🗳️ Voting System
+- Vote for nominees
+- Cooldown restriction between votes
+- Prevent duplicate and spam voting
+- Secure backend validation
 
-Persistent user sessions
+### 📊 Live Results
+- Real-time style result updates
+- Ranking with percentages
+- Animated progress bars
+- Automatic refresh
 
-🗳️ Voting System
+### 💬 Comments and Replies
+- Add comments on polls
+- Reply to comments
+- Nested discussion support
 
-Vote for nominees
+### 🛠️ Admin Dashboard
+- Add new nominees
+- Delete nominees
+- Manage voting options
+- Content moderation capability
 
-Cooldown restriction between votes
+### 🎨 Modern UI
+- Responsive design
+- Clean and user-friendly interface
+- Built using modern frontend tools
 
-Prevents duplicate and spam voting
+---
 
-Secure backend validation
+## 🛠️ Technologies Used
 
-📊 Live Results
+### Frontend
+- Next.js
+- React.js
+- Tailwind CSS
 
-Real-time style result updates
+### Backend
+- Node.js
+- Express.js
+- REST API
+- JWT Authentication
+- Nodemailer (OTP Email)
 
-Ranking with percentages
+### Database
+- MySQL
 
-Animated progress bars
+### Other Tools
+- Git
+- GitHub
 
-Automatic refresh
+---
 
-💬 Comments and Replies
+## 🗄️ Database
 
-Add comments on polls
+MySQL relational database with tables:
 
-Reply to comments
+- users
+- categories
+- nominees
+- votes
+- comments
 
-Nested discussion support
+---
 
-🛠️ Admin Dashboard
+## ⚙️ Installation Guide
 
-Add new nominees
+### 1. Clone Repository
 
-Delete nominees
-
-Manage voting options
-
-Content moderation capability
-
-🎨 Modern UI
-
-Responsive design
-
-Clean and user-friendly interface
-
-Built using modern frontend tools
-
-🛠️ Technologies Used
-Frontend
-
-Next.js
-
-React.js
-
-Tailwind CSS
-
-Backend
-
-Node.js
-
-Express.js
-
-REST API
-
-JWT Authentication
-
-Database
-
-MySQL
-
-Other Tools
-
-Nodemailer (OTP email)
-
-Git & GitHub
-
-🗄️ Database
-
-MySQL relational database with main tables:
-
-users
-
-categories
-
-nominees
-
-votes
-
-comments
+```bash
+git clone https://github.com/YOUR_USERNAME/online-voting-system.git
+cd online-voting-system
