@@ -45,7 +45,7 @@ router.get("/:slug/nominees", async (req, res) => {
   const categoryId = cats[0].id;
 
   const [rows] = await pool.execute(
-    `SELECT id, name, country, image_url
+    `SELECT id, name, company, image_url
      FROM nominees
      WHERE category_id = ? AND is_active = 1
      ORDER BY name ASC`,
@@ -80,7 +80,7 @@ router.get("/:slug/results", async (req, res) => {
       `SELECT
         n.id AS nomineeId,
         n.name,
-        n.country,
+        n.company,
         COUNT(v.id) AS votes
 
       FROM nominees n
@@ -102,7 +102,7 @@ router.get("/:slug/results", async (req, res) => {
     const results = rows.map((r) => ({
       nomineeId: r.nomineeId,
       name: r.name,
-      country: r.country,
+      company: r.company,
       votes: r.votes,
       percent: totalVotes ? Math.round((r.votes / totalVotes) * 100) : 0,
     }));

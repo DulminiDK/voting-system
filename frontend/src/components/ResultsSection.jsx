@@ -51,9 +51,9 @@ export default function ResultsSection({ results }) {
                   <div className="font-medium">
                     {r.name}
 
-                    {r.country && (
+                    {r.company && (
                       <span className="text-gray-500 ml-2 text-sm">
-                        {r.country}
+                        {r.company}
                       </span>
                     )}
                   </div>

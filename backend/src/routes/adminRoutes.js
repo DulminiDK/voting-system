@@ -16,14 +16,14 @@ router.post(
   requireAdmin,
 
   async (req, res) => {
-    const { categoryId, name, country } = req.body;
+    const { categoryId, name, company } = req.body;
 
     await pool.execute(
       `INSERT INTO nominees
-(category_id,name,country)
+(category_id,name,company)
 VALUES (?,?,?)`,
 
-      [categoryId, name, country],
+      [categoryId, name, company],
     );
 
     res.json({ message: "Nominee added" });
@@ -75,7 +75,7 @@ router.get("/nominees", requireAuth, requireAdmin, async (req, res) => {
     const [rows] = await pool.execute(
       `SELECT n.id,
                 n.name,
-                n.country,
+                n.company,
                 c.title as category
 
          FROM nominees n

@@ -17,7 +17,7 @@ export default function VoteSection({ nominees, onVote, onShowResults }) {
             `}
           >
             <div>
-              {n.name} - {n.country}
+              {n.name} - {n.company}
             </div>
 
             <input

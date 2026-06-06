@@ -31,7 +31,7 @@ export default function ResultsPage() {
       <header className="bg-gradient-to-r from-purple-700 to-blue-500 text-white">
         <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between">
           <Link href="/" className="font-bold text-xl">
-            Shining<span className="text-yellow-300">Awards</span>
+            TechPulse<span className="text-yellow-300">Awards</span>
           </Link>
 
           <Link

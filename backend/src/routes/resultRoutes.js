@@ -32,7 +32,7 @@ router.get("/:slug/results", async (req, res) => {
       `SELECT
          n.id AS nomineeId,
          n.name,
-         n.country,
+         n.company,
          n.image_url,
          COUNT(v.id) AS votes
        FROM nominees n

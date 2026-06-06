@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { apiFetch } from "@/lib/api";
@@ -14,15 +14,11 @@ import ResultsSection from "@/components/ResultsSection";
 
 export default function PollPage() {
   const { slug } = useParams();
-
+  const router = useRouter();
   const token = getToken();
-
   const [category, setCategory] = useState(null);
-
   const [nominees, setNominees] = useState([]);
-
   const [results, setResults] = useState([]);
-
   const [mode, setMode] = useState("vote");
   // vote | results | success
 
@@ -30,6 +26,10 @@ export default function PollPage() {
   const [cooldownActive, setCooldownActive] = useState(false);
 
   useEffect(() => {
+    if (!token) {
+      router.push(`/login?redirect=/poll/${slug}`);
+      return;
+    }
     load();
 
     const interval = setInterval(() => {
@@ -102,7 +102,7 @@ export default function PollPage() {
       <header className="bg-gradient-to-r from-purple-700 to-blue-500 text-white">
         <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between">
           <Link href="/" className="font-bold text-xl">
-            Shining<span className="text-yellow-300">Awards</span>
+            TechPulse<span className="text-yellow-300">Awards</span>
           </Link>
         </div>
       </header>
@@ -153,7 +153,9 @@ export default function PollPage() {
               </div>
             </>
           )}
-          {mode === "success" && !cooldownActive && <VoteSuccess />}
+          {mode === "success" && !cooldownActive && (
+            <VoteSuccess onViewResults={() => setMode("results")} />
+          )}
           {cooldownActive && (
             <div className="text-center mt-6">
               <h2 className="text-red-500 font-semibold">
