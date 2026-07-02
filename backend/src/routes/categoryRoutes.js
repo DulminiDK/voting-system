@@ -13,6 +13,41 @@ router.get("/", async (req, res) => {
   res.json(rows);
 });
 
+// GET /api/categories/statistics
+router.get("/statistics", async (req, res) => {
+  try {
+    const [[categoryCount]] = await pool.execute(`
+      SELECT COUNT(*) AS total
+      FROM categories
+      WHERE status = 'ongoing'
+    `);
+
+    const [[nomineeCount]] = await pool.execute(`
+      SELECT COUNT(*) AS total
+      FROM nominees
+      WHERE is_active = 1
+    `);
+
+    const [[voteCount]] = await pool.execute(`
+      SELECT COUNT(*) AS total
+      FROM votes
+      WHERE is_valid = 1
+    `);
+
+    res.json({
+      categories: categoryCount.total,
+      nominees: nomineeCount.total,
+      votes: voteCount.total,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to load statistics",
+    });
+  }
+});
+
 // GET /api/categories/:slug
 router.get("/:slug", async (req, res) => {
   const slug = req.params.slug;
