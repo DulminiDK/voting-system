@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
-
 import { apiFetch } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 
@@ -11,18 +9,14 @@ import AboutPoll from "@/components/AboutPoll";
 import VoteSection from "@/components/VoteSection";
 import VoteSuccess from "@/components/VoteSuccess";
 import ResultsSection from "@/components/ResultsSection";
+import CommentSection from "@/components/CommentSection";
 
 export default function PollPage() {
   const { slug } = useParams();
-
   const token = getToken();
-
   const [category, setCategory] = useState(null);
-
   const [nominees, setNominees] = useState([]);
-
   const [results, setResults] = useState([]);
-
   const [mode, setMode] = useState("vote");
   // vote | results | success
 
@@ -34,7 +28,7 @@ export default function PollPage() {
 
     const interval = setInterval(() => {
       load();
-    }, 5000); // refresh every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [slug]);
@@ -97,16 +91,6 @@ export default function PollPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* HEADER */}
-
-      <header className="bg-gradient-to-r from-purple-700 to-blue-500 text-white">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between">
-          <Link href="/" className="font-bold text-xl">
-            Shining<span className="text-yellow-300">Awards</span>
-          </Link>
-        </div>
-      </header>
-
       {/* MAIN */}
 
       <main className="max-w-4xl mx-auto mt-8">
@@ -153,7 +137,9 @@ export default function PollPage() {
               </div>
             </>
           )}
-          {mode === "success" && !cooldownActive && <VoteSuccess />}
+          {mode === "success" && !cooldownActive && (
+            <VoteSuccess onViewResults={() => setMode("results")} />
+          )}
           {cooldownActive && (
             <div className="text-center mt-6">
               <h2 className="text-red-500 font-semibold">
@@ -164,6 +150,10 @@ export default function PollPage() {
             </div>
           )}
           {error && <div className="text-red-500">{error}</div>}
+
+          {category && (
+            <CommentSection categoryId={category.id} slug={category.slug} />
+          )}
         </div>
       </main>
     </div>

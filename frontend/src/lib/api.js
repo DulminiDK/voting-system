@@ -1,3 +1,5 @@
+import { getToken } from "@/lib/auth";
+
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 if (!API) {
@@ -10,7 +12,11 @@ export async function apiFetch(path, options = {}, token = null) {
     ...(options.headers || {}),
   };
 
-  if (token) headers.Authorization = `Bearer ${token}`;
+  const authToken = token || getToken();
+
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
 
   const res = await fetch(`${API}${path}`, {
     ...options,
@@ -27,6 +33,7 @@ export async function apiFetch(path, options = {}, token = null) {
       data && typeof data === "object" && data.message
         ? data.message
         : `Request failed (${res.status})`;
+
     throw new Error(msg);
   }
 

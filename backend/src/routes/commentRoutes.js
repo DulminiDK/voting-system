@@ -19,7 +19,10 @@ router.get("/:slug", async (req, res) => {
     const categoryId = cat[0].id;
 
     const [rows] = await pool.execute(
-      `SELECT c.*, u.email
+      `SELECT
+c.*,
+u.email,
+u.display_name
 
        FROM comments c
        JOIN users u ON c.user_id = u.id
@@ -41,6 +44,25 @@ router.get("/:slug", async (req, res) => {
 router.post("/", requireAuth, async (req, res) => {
   try {
     const { categoryId, content, parentId } = req.body;
+
+    if (parentId) {
+      const [rows] = await pool.execute(
+        "SELECT parent_id FROM comments WHERE id = ?",
+        [parentId],
+      );
+
+      if (!rows.length) {
+        return res.status(404).json({
+          message: "Parent comment not found.",
+        });
+      }
+
+      if (rows[0].parent_id !== null) {
+        return res.status(400).json({
+          message: "Replies to replies are not allowed.",
+        });
+      }
+    }
 
     await pool.execute(
       `INSERT INTO comments

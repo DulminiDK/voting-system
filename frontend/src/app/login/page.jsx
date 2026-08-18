@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { setEmail, setToken } from "@/lib/auth";
+import { setEmail, setToken, setDisplayName } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -43,7 +43,10 @@ export default function LoginPage() {
       });
 
       setToken(res.token);
+      setEmail(email);
+      setDisplayName(res.user.displayName || "");
       setMsg("Login success!");
+      window.location.href = "/";
       router.push("/");
     } catch (e) {
       setMsg(e.message);
@@ -55,9 +58,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-6 bg-gray-50">
       <div className="w-full max-w-md rounded-2xl bg-white shadow p-6">
-        <h1 className="text-2xl font-semibold">Login to Vote</h1>
+        <h1 className="text-2xl font-semibold">Sign in to TechPulse Awards</h1>
         <p className="text-sm text-gray-600 mt-1">
-          Enter your email, receive OTP, then verify.
+          Enter your email address to securely sign in using a one-time password
+          (OTP).
         </p>
 
         {msg && (

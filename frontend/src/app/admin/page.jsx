@@ -16,7 +16,7 @@ export default function AdminPage() {
 
   const [name, setName] = useState("");
 
-  const [country, setCountry] = useState("");
+  const [company, setCompany] = useState("");
 
   useEffect(() => {
     loadCategories();
@@ -46,7 +46,7 @@ export default function AdminPage() {
         body: JSON.stringify({
           categoryId,
           name,
-          country,
+          company,
         }),
       },
 
@@ -103,9 +103,9 @@ export default function AdminPage() {
         />
 
         <input
-          placeholder="Country"
+          placeholder="Company"
           className="border p-2 block mb-2"
-          onChange={(e) => setCountry(e.target.value)}
+          onChange={(e) => setCompany(e.target.value)}
         />
 
         <button
@@ -128,7 +128,7 @@ export default function AdminPage() {
 
               <th className="p-2 border">Name</th>
 
-              <th className="p-2 border">Country</th>
+              <th className="p-2 border">Company</th>
 
               <th className="p-2 border">Category</th>
 
@@ -143,7 +143,7 @@ export default function AdminPage() {
 
                 <td className="p-2 border">{n.name}</td>
 
-                <td className="p-2 border">{n.country}</td>
+                <td className="p-2 border">{n.company}</td>
 
                 <td className="p-2 border">{n.category}</td>
 
