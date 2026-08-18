@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
-
+import { useParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 
@@ -11,10 +9,10 @@ import AboutPoll from "@/components/AboutPoll";
 import VoteSection from "@/components/VoteSection";
 import VoteSuccess from "@/components/VoteSuccess";
 import ResultsSection from "@/components/ResultsSection";
+import CommentSection from "@/components/CommentSection";
 
 export default function PollPage() {
   const { slug } = useParams();
-  const router = useRouter();
   const token = getToken();
   const [category, setCategory] = useState(null);
   const [nominees, setNominees] = useState([]);
@@ -26,15 +24,11 @@ export default function PollPage() {
   const [cooldownActive, setCooldownActive] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      router.push(`/login?redirect=/poll/${slug}`);
-      return;
-    }
     load();
 
     const interval = setInterval(() => {
       load();
-    }, 5000); // refresh every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [slug]);
@@ -97,16 +91,6 @@ export default function PollPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* HEADER */}
-
-      <header className="bg-gradient-to-r from-purple-700 to-blue-500 text-white">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between">
-          <Link href="/" className="font-bold text-xl">
-            TechPulse<span className="text-yellow-300">Awards</span>
-          </Link>
-        </div>
-      </header>
-
       {/* MAIN */}
 
       <main className="max-w-4xl mx-auto mt-8">
@@ -166,6 +150,10 @@ export default function PollPage() {
             </div>
           )}
           {error && <div className="text-red-500">{error}</div>}
+
+          {category && (
+            <CommentSection categoryId={category.id} slug={category.slug} />
+          )}
         </div>
       </main>
     </div>

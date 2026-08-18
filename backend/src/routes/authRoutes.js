@@ -93,7 +93,7 @@ router.post("/verify-otp", async (req, res) => {
 
   // find or create user
   const [urows] = await pool.execute(
-    `SELECT id, email FROM users WHERE email = ? LIMIT 1`,
+    `SELECT id, email, display_name FROM users WHERE email = ? LIMIT 1`,
     [email],
   );
   let userId;
@@ -107,15 +107,71 @@ router.post("/verify-otp", async (req, res) => {
   }
 
   // JWT
-  const token = jwt.sign({ id: userId, email }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
-  });
+  const token = jwt.sign(
+    {
+      id: userId,
+      email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    },
+  );
 
   return res.json({
     message: "Verified",
     token,
     user: { id: userId, email },
   });
+});
+
+// PUT /api/auth/display-name
+const requireAuth = require("../middlewares/requireAuth");
+
+router.put("/display-name", requireAuth, async (req, res) => {
+  try {
+    const { displayName } = req.body;
+
+    if (!displayName || displayName.trim().length < 3) {
+      return res.status(400).json({
+        message: "Display name must be at least 3 characters.",
+      });
+    }
+
+    if (displayName.length > 20) {
+      return res.status(400).json({
+        message: "Display name cannot exceed 20 characters.",
+      });
+    }
+
+    // Only allow letters, numbers, spaces and underscores
+    const regex = /^[A-Za-z0-9_ ]+$/;
+
+    if (!regex.test(displayName.trim())) {
+      return res.status(400).json({
+        message: "Only letters, numbers, spaces and underscores are allowed.",
+      });
+    }
+
+    await pool.execute(
+      `
+      UPDATE users
+      SET display_name=?
+      WHERE id=?
+      `,
+      [displayName.trim(), req.user.id],
+    );
+
+    res.json({
+      message: "Display name updated.",
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: err.message,
+    });
+  }
 });
 
 module.exports = router;

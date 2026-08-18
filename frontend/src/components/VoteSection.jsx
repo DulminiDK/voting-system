@@ -41,6 +41,8 @@ export default function VoteSection({ nominees, onVote, onShowResults }) {
         >
           VOTE NOW
         </button>
+
+        
       </div>
     </div>
   );

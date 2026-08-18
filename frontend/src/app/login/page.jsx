@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { setEmail, setToken } from "@/lib/auth";
+import { setEmail, setToken, setDisplayName } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -44,6 +44,7 @@ export default function LoginPage() {
 
       setToken(res.token);
       setEmail(email);
+      setDisplayName(res.user.displayName || "");
       setMsg("Login success!");
       window.location.href = "/";
       router.push("/");
